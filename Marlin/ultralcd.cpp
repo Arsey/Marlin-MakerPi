@@ -561,8 +561,9 @@ static void lcd_prepare_menu()
       MENU_ITEM(function, MSG_AUTOSTART, lcd_autostart_sd);
     #endif
 #endif
-    MENU_ITEM(gcode, MSG_DISABLE_STEPPERS, PSTR("M84"));
+    //MENU_ITEM(gcode, MSG_DISABLE_STEPPERS, PSTR("M84"));
     MENU_ITEM(gcode, MSG_AUTO_HOME, PSTR("G28"));
+    MENU_ITEM(submenu, MSG_MOVE_AXIS, lcd_move_menu);
     //MENU_ITEM(gcode, MSG_SET_ORIGIN, PSTR("G92 X0 Y0 Z0"));
 #if TEMP_SENSOR_0 != 0
   #if TEMP_SENSOR_1 != 0 || TEMP_SENSOR_2 != 0 || TEMP_SENSOR_BED != 0
@@ -582,7 +583,6 @@ static void lcd_prepare_menu()
         MENU_ITEM(gcode, MSG_SWITCH_PS_ON, PSTR("M80"));
     }
 #endif
-    MENU_ITEM(submenu, MSG_MOVE_AXIS, lcd_move_menu);
     END_MENU();
 }
 
@@ -711,9 +711,9 @@ static void lcd_move_menu_axis()
     MENU_ITEM(back, MSG_MOVE_AXIS, lcd_move_menu);
     MENU_ITEM(submenu, MSG_MOVE_X, lcd_move_x);
     MENU_ITEM(submenu, MSG_MOVE_Y, lcd_move_y);
+    MENU_ITEM(submenu, MSG_MOVE_Z, lcd_move_z);
     if (move_menu_scale < 10.0)
     {
-        MENU_ITEM(submenu, MSG_MOVE_Z, lcd_move_z);
         MENU_ITEM(submenu, MSG_MOVE_E, lcd_move_e);
     }
     END_MENU();
