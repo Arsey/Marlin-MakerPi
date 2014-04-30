@@ -53,7 +53,7 @@
 
 #ifndef FIRMWARE_NAME
     #define FIRMWARE_NAME "Marlin V1; Sprinter/grbl mashup for gen6"
-#else
+#endif
 
 
 #ifndef MACHINE_UUID
