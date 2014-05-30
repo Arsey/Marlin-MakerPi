@@ -565,22 +565,6 @@
 
   #define TEMP_BED_PIN       14   // ANALOG NUMBERING
 
-  #ifdef NUM_SERVOS
-    #define SERVO0_PIN         11
-
-    #if NUM_SERVOS > 1
-      #define SERVO1_PIN         6
-    #endif
-
-    #if NUM_SERVOS > 2
-      #define SERVO2_PIN         5
-    #endif
-
-    #if NUM_SERVOS > 3
-      #define SERVO3_PIN         4
-    #endif
-  #endif
-
   #if MOTHERBOARD == 68
     #define BEEPER 33
   #endif
@@ -1052,22 +1036,6 @@
 
 #ifdef AZTEEG_X1
  #define FAN_PIN            4
-#endif
-
-#ifdef NUM_SERVOS
-  #define SERVO0_PIN          -1
-
-  #if NUM_SERVOS > 1
-    #define SERVO1_PIN        -1
-  #endif
-
-  #if NUM_SERVOS > 2
-    #define SERVO2_PIN        -1
-  #endif
-
-  #if NUM_SERVOS > 3
-    #define SERVO3_PIN        -1
-  #endif
 #endif
 
 #define PS_ON_PIN          -1
@@ -1919,9 +1887,9 @@
 #define E0_ENABLE_PIN      13
 
 #define TEMP_0_PIN          0   // MUST USE ANALOG INPUT NUMBERING NOT DIGITAL OUTPUT NUMBERING!!!!!!!!! (pin 33 extruder)
-#define TEMP_1_PIN         -1   
+#define TEMP_1_PIN         -1
 #define TEMP_2_PIN         -1
-#define TEMP_BED_PIN        5   // MUST USE ANALOG INPUT NUMBERING NOT DIGITAL OUTPUT NUMBERING!!!!!!!!! (pin 34 bed)  
+#define TEMP_BED_PIN        5   // MUST USE ANALOG INPUT NUMBERING NOT DIGITAL OUTPUT NUMBERING!!!!!!!!! (pin 34 bed)
 #define SDPOWER            -1
 #define SDSS               4
 #define HEATER_2_PIN       -1
@@ -2696,4 +2664,3 @@
                         _E0_PINS _E1_PINS _E2_PINS             \
                         analogInputToDigitalPin(TEMP_0_PIN), analogInputToDigitalPin(TEMP_1_PIN), analogInputToDigitalPin(TEMP_2_PIN), analogInputToDigitalPin(TEMP_BED_PIN) }
 #endif
-
