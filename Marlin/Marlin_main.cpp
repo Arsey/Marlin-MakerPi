@@ -2399,18 +2399,6 @@ void process_commands()
       #endif //chdk end if
      }
     break;
-#ifdef DOGLCD
-    case 250: // M250  Set LCD contrast value: C<value> (value 0..63)
-     {
-	  if (code_seen('C')) {
-	   lcd_setcontrast( ((int)code_value())&63 );
-          }
-          SERIAL_PROTOCOLPGM("lcd contrast value: ");
-          SERIAL_PROTOCOL(lcd_contrast);
-          SERIAL_PROTOCOLLN("");
-     }
-    break;
-#endif
     #ifdef PREVENT_DANGEROUS_EXTRUDE
     case 302: // allow cold extrudes, or set the minimum extrude temperature
     {

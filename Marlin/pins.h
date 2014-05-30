@@ -1081,26 +1081,6 @@
    #ifdef NEWPANEL
      //we have no buzzer installed
      #define BEEPER -1
-     //LCD Pins
-     #ifdef DOGLCD
-       // Pins for DOGM SPI LCD Support
-       #define DOGLCD_A0  30
-       #define DOGLCD_CS  29
-       // GLCD features
-       #define LCD_CONTRAST 1
-       // Uncomment screen orientation
-         // #define LCD_SCREEN_ROT_0
-         // #define LCD_SCREEN_ROT_90
-       #define LCD_SCREEN_ROT_180
-         // #define LCD_SCREEN_ROT_270
-       #else // standard Hitachi LCD controller
-       #define LCD_PINS_RS        4
-       #define LCD_PINS_ENABLE    17
-       #define LCD_PINS_D4        30
-       #define LCD_PINS_D5        29
-       #define LCD_PINS_D6        28
-       #define LCD_PINS_D7        27
-     #endif
      //The encoder and click button
      #define BTN_EN1 11
      #define BTN_EN2 10
@@ -1119,27 +1099,6 @@
 
    #endif //Newpanel
  #endif //Ultipanel
-
- #ifdef MAKRPANEL
-     #define BEEPER 29
-     // Pins for DOGM SPI LCD Support
-     #define DOGLCD_A0  30
-     #define DOGLCD_CS  17
-     #define LCD_PIN_BL	28	// backlight LED on PA3
-     // GLCD features
-     #define LCD_CONTRAST 1
-     // Uncomment screen orientation
-     #define LCD_SCREEN_ROT_0
-       // #define LCD_SCREEN_ROT_90
-       // #define LCD_SCREEN_ROT_180
-       // #define LCD_SCREEN_ROT_270
-     //The encoder and click button
-     #define BTN_EN1 11
-     #define BTN_EN2 10
-     #define BTN_ENC 16  //the click switch
-     //not connected to a pin
-     #define SDCARDDETECT -1
- #endif //Makrpanel
 
 #endif
 
