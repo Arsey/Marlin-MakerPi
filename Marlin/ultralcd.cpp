@@ -32,11 +32,7 @@ typedef void (*menuFunc_t)();
 uint8_t lcd_status_message_level;
 char lcd_status_message[LCD_WIDTH+1] = WELCOME_MSG;
 
-#ifdef DOGLCD
-#include "dogm_lcd_implementation.h"
-#else
 #include "ultralcd_implementation_hitachi_HD44780.h"
-#endif
 
 /** forward declarations **/
 
@@ -56,9 +52,6 @@ static void lcd_control_temperature_menu();
 static void lcd_control_temperature_preheat_pla_settings_menu();
 static void lcd_control_temperature_preheat_abs_settings_menu();
 static void lcd_control_motion_menu();
-#ifdef DOGLCD
-static void lcd_set_contrast();
-#endif
 static void lcd_control_retract_menu();
 static void lcd_sdcard_menu();
 
@@ -601,12 +594,7 @@ static void lcd_move_x()
         if (max_software_endstops && current_position[X_AXIS] > X_MAX_POS)
             current_position[X_AXIS] = X_MAX_POS;
         encoderPosition = 0;
-        #ifdef DELTA
-        calculate_delta(current_position);
-        plan_buffer_line(delta[X_AXIS], delta[Y_AXIS], delta[Z_AXIS], current_position[E_AXIS], manual_feedrate[X_AXIS]/60, active_extruder);
-        #else
         plan_buffer_line(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS], current_position[E_AXIS], manual_feedrate[X_AXIS]/60, active_extruder);
-        #endif
         lcdDrawUpdate = 1;
     }
     if (lcdDrawUpdate)
@@ -631,12 +619,7 @@ static void lcd_move_y()
         if (max_software_endstops && current_position[Y_AXIS] > Y_MAX_POS)
             current_position[Y_AXIS] = Y_MAX_POS;
         encoderPosition = 0;
-        #ifdef DELTA
-        calculate_delta(current_position);
-        plan_buffer_line(delta[X_AXIS], delta[Y_AXIS], delta[Z_AXIS], current_position[E_AXIS], manual_feedrate[Y_AXIS]/60, active_extruder);
-        #else
         plan_buffer_line(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS], current_position[E_AXIS], manual_feedrate[Y_AXIS]/60, active_extruder);
-        #endif
         lcdDrawUpdate = 1;
     }
     if (lcdDrawUpdate)
@@ -661,12 +644,7 @@ static void lcd_move_z()
         if (max_software_endstops && current_position[Z_AXIS] > Z_MAX_POS)
             current_position[Z_AXIS] = Z_MAX_POS;
         encoderPosition = 0;
-        #ifdef DELTA
-        calculate_delta(current_position);
-        plan_buffer_line(delta[X_AXIS], delta[Y_AXIS], delta[Z_AXIS], current_position[E_AXIS], manual_feedrate[Z_AXIS]/60, active_extruder);
-        #else
         plan_buffer_line(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS], current_position[E_AXIS], manual_feedrate[Z_AXIS]/60, active_extruder);
-        #endif
         lcdDrawUpdate = 1;
     }
     if (lcdDrawUpdate)
@@ -686,12 +664,7 @@ static void lcd_move_e()
     {
         current_position[E_AXIS] += float((int)encoderPosition) * move_menu_scale;
         encoderPosition = 0;
-        #ifdef DELTA
-        calculate_delta(current_position);
-        plan_buffer_line(delta[X_AXIS], delta[Y_AXIS], delta[Z_AXIS], current_position[E_AXIS], manual_feedrate[E_AXIS]/60, active_extruder);
-        #else
         plan_buffer_line(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS], current_position[E_AXIS], manual_feedrate[E_AXIS]/60, active_extruder);
-        #endif
         lcdDrawUpdate = 1;
     }
     if (lcdDrawUpdate)
@@ -753,10 +726,6 @@ static void lcd_control_menu()
     MENU_ITEM(back, MSG_MAIN, lcd_main_menu);
     MENU_ITEM(submenu, MSG_TEMPERATURE, lcd_control_temperature_menu);
     MENU_ITEM(submenu, MSG_MOTION, lcd_control_motion_menu);
-#ifdef DOGLCD
-//    MENU_ITEM_EDIT(int3, MSG_CONTRAST, &lcd_contrast, 0, 63);
-    MENU_ITEM(submenu, MSG_CONTRAST, lcd_set_contrast);
-#endif
 #ifdef FWRETRACT
     MENU_ITEM(submenu, MSG_RETRACT, lcd_control_retract_menu);
 #endif
@@ -870,31 +839,6 @@ static void lcd_control_motion_menu()
 #endif
     END_MENU();
 }
-
-#ifdef DOGLCD
-static void lcd_set_contrast()
-{
-    if (encoderPosition != 0)
-    {
-        lcd_contrast -= encoderPosition;
-        if (lcd_contrast < 0) lcd_contrast = 0;
-        else if (lcd_contrast > 63) lcd_contrast = 63;
-        encoderPosition = 0;
-        lcdDrawUpdate = 1;
-        u8g.setContrast(lcd_contrast);
-    }
-    if (lcdDrawUpdate)
-    {
-        lcd_implementation_drawedit(PSTR(MSG_CONTRAST), itostr2(lcd_contrast));
-    }
-    if (LCD_CLICKED)
-    {
-        lcd_quick_feedback();
-        currentMenu = lcd_control_menu;
-        encoderPosition = 0;
-    }
-}
-#endif
 
 #ifdef FWRETRACT
 static void lcd_control_retract_menu()
@@ -1145,7 +1089,7 @@ void lcd_init()
   #ifdef SR_LCD_2W_NL // Non latching 2 wire shift register
      pinMode (SR_DATA_PIN, OUTPUT);
      pinMode (SR_CLK_PIN, OUTPUT);
-  #elif defined(SHIFT_CLK) 
+  #elif defined(SHIFT_CLK)
      pinMode(SHIFT_CLK,OUTPUT);
      pinMode(SHIFT_LD,OUTPUT);
      pinMode(SHIFT_EN,OUTPUT);
@@ -1241,22 +1185,7 @@ void lcd_update()
             timeoutToStatus = millis() + LCD_TIMEOUT_TO_STATUS;
 #endif//ULTIPANEL
 
-#ifdef DOGLCD        // Changes due to different driver architecture of the DOGM display
-        blink++;     // Variable for fan animation and alive dot
-        u8g.firstPage();
-        do
-        {
-            u8g.setFont(u8g_font_6x10_marlin);
-            u8g.setPrintPos(125,0);
-            if (blink % 2) u8g.setColorIndex(1); else u8g.setColorIndex(0); // Set color for the alive dot
-            u8g.drawPixel(127,63); // draw alive dot
-            u8g.setColorIndex(1); // black on white
-            (*currentMenu)();
-            if (!lcdDrawUpdate)  break; // Terminate display update, when nothing new to draw. This must be done before the last dogm.next()
-        } while( u8g.nextPage() );
-#else
         (*currentMenu)();
-#endif
 
 #ifdef LCD_HAS_STATUS_INDICATORS
         lcd_implementation_update_indicators();
@@ -1303,14 +1232,6 @@ void lcd_reset_alert_level()
 {
     lcd_status_message_level = 0;
 }
-
-#ifdef DOGLCD
-void lcd_setcontrast(uint8_t value)
-{
-    lcd_contrast = value & 63;
-    u8g.setContrast(lcd_contrast);
-}
-#endif
 
 #ifdef ULTIPANEL
 /* Warning: This function is called from interrupt context */

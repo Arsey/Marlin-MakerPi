@@ -565,22 +565,6 @@
 
   #define TEMP_BED_PIN       14   // ANALOG NUMBERING
 
-  #ifdef NUM_SERVOS
-    #define SERVO0_PIN         11
-
-    #if NUM_SERVOS > 1
-      #define SERVO1_PIN         6
-    #endif
-
-    #if NUM_SERVOS > 2
-      #define SERVO2_PIN         5
-    #endif
-
-    #if NUM_SERVOS > 3
-      #define SERVO3_PIN         4
-    #endif
-  #endif
-
   #if MOTHERBOARD == 68
     #define BEEPER 33
   #endif
@@ -1054,22 +1038,6 @@
  #define FAN_PIN            4
 #endif
 
-#ifdef NUM_SERVOS
-  #define SERVO0_PIN          -1
-
-  #if NUM_SERVOS > 1
-    #define SERVO1_PIN        -1
-  #endif
-
-  #if NUM_SERVOS > 2
-    #define SERVO2_PIN        -1
-  #endif
-
-  #if NUM_SERVOS > 3
-    #define SERVO3_PIN        -1
-  #endif
-#endif
-
 #define PS_ON_PIN          -1
 #define KILL_PIN           -1
 
@@ -1113,26 +1081,6 @@
    #ifdef NEWPANEL
      //we have no buzzer installed
      #define BEEPER -1
-     //LCD Pins
-     #ifdef DOGLCD
-       // Pins for DOGM SPI LCD Support
-       #define DOGLCD_A0  30
-       #define DOGLCD_CS  29
-       // GLCD features
-       #define LCD_CONTRAST 1
-       // Uncomment screen orientation
-         // #define LCD_SCREEN_ROT_0
-         // #define LCD_SCREEN_ROT_90
-       #define LCD_SCREEN_ROT_180
-         // #define LCD_SCREEN_ROT_270
-       #else // standard Hitachi LCD controller
-       #define LCD_PINS_RS        4
-       #define LCD_PINS_ENABLE    17
-       #define LCD_PINS_D4        30
-       #define LCD_PINS_D5        29
-       #define LCD_PINS_D6        28
-       #define LCD_PINS_D7        27
-     #endif
      //The encoder and click button
      #define BTN_EN1 11
      #define BTN_EN2 10
@@ -1151,27 +1099,6 @@
 
    #endif //Newpanel
  #endif //Ultipanel
-
- #ifdef MAKRPANEL
-     #define BEEPER 29
-     // Pins for DOGM SPI LCD Support
-     #define DOGLCD_A0  30
-     #define DOGLCD_CS  17
-     #define LCD_PIN_BL	28	// backlight LED on PA3
-     // GLCD features
-     #define LCD_CONTRAST 1
-     // Uncomment screen orientation
-     #define LCD_SCREEN_ROT_0
-       // #define LCD_SCREEN_ROT_90
-       // #define LCD_SCREEN_ROT_180
-       // #define LCD_SCREEN_ROT_270
-     //The encoder and click button
-     #define BTN_EN1 11
-     #define BTN_EN2 10
-     #define BTN_ENC 16  //the click switch
-     //not connected to a pin
-     #define SDCARDDETECT -1
- #endif //Makrpanel
 
 #endif
 
@@ -1919,9 +1846,9 @@
 #define E0_ENABLE_PIN      13
 
 #define TEMP_0_PIN          0   // MUST USE ANALOG INPUT NUMBERING NOT DIGITAL OUTPUT NUMBERING!!!!!!!!! (pin 33 extruder)
-#define TEMP_1_PIN         -1   
+#define TEMP_1_PIN         -1
 #define TEMP_2_PIN         -1
-#define TEMP_BED_PIN        5   // MUST USE ANALOG INPUT NUMBERING NOT DIGITAL OUTPUT NUMBERING!!!!!!!!! (pin 34 bed)  
+#define TEMP_BED_PIN        5   // MUST USE ANALOG INPUT NUMBERING NOT DIGITAL OUTPUT NUMBERING!!!!!!!!! (pin 34 bed)
 #define SDPOWER            -1
 #define SDSS               4
 #define HEATER_2_PIN       -1
@@ -2696,4 +2623,3 @@
                         _E0_PINS _E1_PINS _E2_PINS             \
                         analogInputToDigitalPin(TEMP_0_PIN), analogInputToDigitalPin(TEMP_1_PIN), analogInputToDigitalPin(TEMP_2_PIN), analogInputToDigitalPin(TEMP_BED_PIN) }
 #endif
-
