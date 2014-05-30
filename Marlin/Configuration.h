@@ -673,9 +673,6 @@ const bool Z_MAX_ENDSTOP_INVERTING = true; // set to true to invert the logic of
 // Support for the BariCUDA Paste Extruder.
 //#define BARICUDA
 
-//define BlinkM/CyzRgb Support
-//#define BLINKM
-
 #include "Configuration_adv.h"
 #include "thermistortables.h"
 
